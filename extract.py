@@ -30,8 +30,9 @@ def load_neos(neo_csv_path):
     with open(neo_csv_path,'r') as neo_file:
         reader  = csv.DictReader(neo_file)
         for row in reader:
-            print(len(row))
-            neos_list.append(NearEarthObject(row))
+            #print(type(row))
+            neos_list.append(NearEarthObject(**row))
+            
 
 
     return neos_list

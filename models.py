@@ -45,10 +45,10 @@ class NearEarthObject:
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
 
-        self.designation = info['pdes'] if info['pdes'] else  ''
+        self.designation = self.numerical_pde(info['pdes'])
         self.name = info['name'] if info['name'] else None
-        self.diameter = info['diameter'] if info['diameter'] else float('nan')
-        self.hazardous = info['pha'] if info['pha'] else  False
+        self.diameter = float(info['diameter']) if info['diameter'] else float('nan')
+        self.hazardous = True if info['pha'] == 'Y' else  False
 
         # Create an empty initial collection of linked approaches.
         self.approaches = []
@@ -70,6 +70,28 @@ class NearEarthObject:
         """Return `repr(self)`, a computer-readable string representation of this object."""
         return f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, " \
                f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})"
+
+
+    def numerical_pde(self,pde):
+        import re
+
+        # ... inside your class or function ...
+
+        if pde:
+                # Get the first part of the string (e.g., '249P')
+                pdes_str_part = pde.split()[0]
+                
+                # Use a regular expression to find all digits in the string
+                # and join them to form a new string
+                numeric_part = ''.join(re.findall(r'\d+', pdes_str_part))
+
+                if numeric_part: # Check if any digits were found
+                    return int(numeric_part)
+                else:
+                    return '' # Or 0, or None, depending on your logic
+        else:
+                return  ''
+
 
 
 class CloseApproach:
