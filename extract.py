@@ -38,36 +38,6 @@ def load_neos(neo_csv_path):
     return neos_list
 
 
-# def load_approaches(cad_json_path):
-#     """Read close approach data from a JSON file.
-
-#     :param cad_json_path: A path to a JSON file containing data about close approaches.
-#     :return: A collection of `CloseApproach`es.
-#     """
-#     # TODO: Load close approach data from the given JSON file.
-#     return ()
-
-# def load_approaches(cad_json_path):
-#     """Read close approach data from a JSON file.
-
-#     :param cad_json_path: A path to a JSON file containing data about close approaches.
-#     :return: A collection of `CloseApproach`es.
-#     """
-#     approaches = []
-#     with open(cad_json_path, 'r') as f:
-#         data = json.load(f)
-    
-#     for approach_data in data['data']:
-#         designation = approach_data[0]
-#         time = approach_data[3]  # You might want to convert this to a datetime object later
-#         distance = float(approach_data[4])
-#         velocity = float(approach_data[7])
-        
-#         #approaches.append(CloseApproach(designation, time, distance, velocity))
-#         approaches.append(CloseApproach(**approach_data))
-#     return approaches
-
-
 def load_approaches(cad_json_path):
     """Read close approach data from a JSON file.
 
@@ -78,13 +48,11 @@ def load_approaches(cad_json_path):
     with open(cad_json_path, 'r') as f:
         raw_data = json.load(f)
 
-    fields = raw_data['fields'] # Get the list of field names
+    fields = raw_data['fields']
     
     for approach_data_list in raw_data['data']:
-        # Create a dictionary by zipping field names with their corresponding values
         approach_info = dict(zip(fields, approach_data_list))
         
-        # Pass the dictionary to the CloseApproach constructor using **
         approaches.append(CloseApproach(**approach_info))
 
     return approaches
